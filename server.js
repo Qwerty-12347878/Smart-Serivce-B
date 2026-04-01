@@ -14,13 +14,17 @@ import notificationRoutes from './routes/notificationRoutes.js';
 dotenv.config();
 
 const port = process.env.PORT || 5000;
+const allowedOrigins = (process.env.CLIENT_URL || 'http://localhost:5173')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
 
 connectDB();
 
 const app = express();
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://servinity.netlify.app'],
+  origin: allowedOrigins,
   credentials: true,
 }));
 

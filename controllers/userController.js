@@ -68,8 +68,11 @@ const registerUser = async (req, res, next) => {
 // @route   POST /api/users/logout
 // @access  Public
 const logoutUser = (req, res) => {
+  const isProduction = process.env.NODE_ENV === 'production';
   res.cookie('jwt', '', {
     httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? 'none' : 'lax',
     expires: new Date(0),
   });
   res.status(200).json({ message: 'Logged out successfully' });
